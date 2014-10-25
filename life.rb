@@ -17,25 +17,29 @@ class Life
     for y in (0...@height)
       for x in (0...@width)
         neighbors = alive_neighbors(x, y) 
-
-        if alive? x,y
-          if neighbors < 2 or neighbors > 3
-            @board[y][x] = 0
-          else
-            @board[y][x] = 1
-          end
-        else
-          if neighbors == 3
-            @board[y][x] = 1
-          else
-            @board[y][x] = 0
-          end
-        end
+        alive = alive?(x, y)
+        @board[y][x] = new_state neighbors, alive
       end
     end
   end
 
   private
+
+  def new_state neighbors, alive
+    if alive
+      if neighbors < 2 or neighbors > 3
+        0
+      else
+        1
+      end
+    else
+      if neighbors == 3
+        1
+      else
+        0
+      end
+    end
+  end
 
   def alive?(x, y)
     @prev[y][x] == 1
